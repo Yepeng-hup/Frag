@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Frag</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/page.css') }}" />
+		<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ url_for('static', filename='css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+        <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}"/>
+	</head>
+
+	<body>
+		<div class="page" id="app">
+			<div class="nav-left" v-show="navLeftFlag" ref="navLeft">
+				<div class="LogoName">
+					Frag
+				</div>
+				<div class="navDiv">
+					<div class="navName">导航</div>
+					<div class="nav-list">
+						<ul>
+							<li class="nav-tab a_active waves-effect">
+								<a href="/home" class="li-a active" target="iframe"><img src="../static/images/home.png" style="height: 20px; width: 20px;"> 主页
+								</a>
+							</li>
+							<li class="nav-tab nav-ul">
+								<a href="javascript:void[0]" class="li-a"><img src="../static/images/user.png" style="height: 20px; width: 20px;"> 用户管理
+									<i class='bx bx-chevron-right' style="float: right;"></i></a>
+								<div class="nav-box">
+									<a href="/user/userlist" class="li-a-a" target="iframe">用户列表</a>
+								</div>
+                                <div class="nav-box">
+									<a href="/user/usercreate" class="li-a-a" target="iframe">用户创建</a>
+								</div>
+							</li>
+							<li class="nav-tab nav-ul">
+								<a href="javascript:void[0]" class="li-a"><img src="../static/images/jilu.png" style="height: 20px; width: 20px;"> 记录管理
+									<i class='bx bx-chevron-right' style="float: right;"></i></a>
+								<div class="nav-box">
+									<a href="deploy_w" class="li-a-a" target="iframe">维护记录</a>
+								</div>
+								<div class="nav-box">
+									<a href="hefu_w" class="li-a-a" target="iframe">合服记录</a>
+								</div>
+								<div class="nav-box">
+									<a href="event_w" class="li-a-a" target="iframe">事件记录</a>
+								</div>
+							</li>
+
+
+							<li class="nav-tab nav-ul">
+								<a href="javascript:void[0]" class="li-a"><img src="../static/images/data.png" style="height: 20px; width: 20px;"> 数据管理
+									<i class='bx bx-chevron-right' style="float: right;"></i></a>
+								<div class="nav-box">
+									<a href="/push" class="li-a-a" target="iframe">数据上传</a>
+								</div>
+                                <div class="nav-box">
+									<a href="/data/linux" class="li-a-a" target="iframe">代码推送</a>
+								</div>
+							</li>
+
+							<li class="nav-tab nav-ul">
+								<a href="javascript:void[0]" class="li-a"><img src="../static/images/server.png" style="height: 20px; width: 20px;"> 服务器管理
+									<i class='bx bx-chevron-right' style="float: right;"></i></a>
+								<div class="nav-box">
+									<a href="/server" class="li-a-a" target="iframe">机器巡检</a>
+								</div>
+                                <div class="nav-box">
+									<a href="/serviceone" class="li-a-a" target="iframe">服务集成</a>
+								</div>
+							</li>
+
+                            <li class="nav-tab nav-ul">
+								<a href="{{ url_for('user.logout') }}" class="li-a"><img src="../static/images/logout.png" style="height: 20px; width: 20px;"> 退出登录</a>
+							</li>
+
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="nav-right" ref="navRight">
+				<div class="nav-top">
+					<button type="button" class="btn btn-primary btn-sm hiddenBtn" style="line-height: 10px;" @click="isShowLeft">
+						<i class="bx bx-grid-alt" style="font-size: 16px;"></i>
+					</button>
+				</div>
+				<div class="content-page" ref="cPage">
+					<iframe name="iframe" width="100%" height="100%" frameborder="0" src="/home"></iframe>
+				</div>
+			</div>
+		</div>
+
+		<script src="{{ url_for('static', filename='js/vue.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/jquery-3.6.1.min.js') }}"></script>
+		
+		<script type="text/javascript">
+			$(function() {
+				let navflag = false;
+				$('.nav-tab').click(function() {
+					$(this).siblings().each(function() {
+						$(this).removeClass('a_active');
+						// $(this).removeClass('a_active');
+						$(this).find('.nav-box').css('height', '0')
+						//关闭右侧箭头
+						if ($(this).attr('class').indexOf('nav-ul') != -1) {
+							$(this).find('.bx-chevron-right').css('transform', 'rotateZ(0deg)')
+							$(this).find('.bx-chevron-right').css('transition', 'all .5s')
+							$(this).removeClass('nav-show')
+							// $(this).find('div').removeClass('nav-box')
+						}
+					})
+					//当前选中
+					$(this).addClass('a_active')
+					$(this).find('.li-a').addClass('active')
+					// 打开右侧箭头
+					$(this).find('.bx-chevron-right').css('transform', 'rotateZ(90deg)')
+					$(this).find('.bx-chevron-right').css('transition', 'all .5s')
+					$(this).addClass('nav-show')
+					// $(this).find('div').addClass('nav-box')
+				})
+				/* 二级菜单a点击事件 */
+				$(".li-a-a").click(function() {
+					$(".li-a-a").each(function() {
+						$(this).removeClass('active-li-a');
+					})
+					$(this).addClass('active-li-a');
+				})
+
+			})
+			const vue = new Vue({
+				el: '#app',
+				data: {
+					navLeftFlag: true
+				},
+				methods: {
+					isShowLeft() {
+						if (this.navLeftFlag ) {
+							this.$refs.navRight.style.paddingLeft = '0px'
+							this.$refs.cPage.style.left = '0px';
+							this.navLeftFlag = false;
+						} else {
+							this.$refs.navRight.style.paddingLeft = '210px';
+							this.$refs.cPage.style.left = '210px';
+							this.navLeftFlag = true;
+						}
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

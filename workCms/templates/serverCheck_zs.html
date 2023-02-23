@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>巡检记录展示</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.6.1.min.js') }}"></script>
+</head>
+<body>
+    <div>
+        <a class="#" href="{{ url_for('server_check.server') }}">
+            <button type="button" class="btn btn-primary you">返回上一页</button>
+        </a>
+    </div><br>
+
+        <div class="container">
+        <form class="parent" method="post" action="{{ url_for('server_check.server_search') }}" enctype="multipart/form-data">
+            <input name="search" type="text" placeholder="输入关键字">
+            <input type="submit" value="搜索记录">
+        </form>
+    </div>
+
+    <div class="form-group" style="margin: 3px;">
+        <input  type="text" id="data" style="height: 34px;" placeholder="输入要删除的ID">
+        <button class="btn btn-danger" id="delete_table" style="margin: 2px">删除</button>
+    </div>
+
+    <button class="btn btn-success" style="margin: 3px"><input type="checkbox" class="all-checkbox export-remove" style="margin: 2px;text-align: center;">全选</button>
+    <button class="btn btn-primary" id="downExcel" style="margin: 3px;">导出EXCEL</button>
+    <a href="{{ url_for('server_check./server/alert') }}">
+        <button class="btn btn-info" style="margin: 3px;">告警信息统计</button>
+    </a>
+
+    <br>
+
+    <table class="table table-bordered table-hove">
+        <thead>
+            <th>#</th>
+            <th>ID</th>
+            <th>日期时间</th>
+            <th>服务器</th>
+            <th>数据备份</th>
+            <th>服务器状态</th>
+            <th>全天告警次数</th>
+            <th>告警信息</th>
+            <th>巡检人</th>
+        </thead>
+        <tbody id="tablesData">
+            {% for i in rel %}
+                <tr>
+                    <td><input type="checkbox" class="checkbox export-remove"/></td>
+                {% for _,v in i.items() %}
+                    {% if v == "未备份" %}
+                        <td><span style="color: #fa0b03">{{ v }}</span></td>
+                    {% elif v == "不正常" %}
+                        <td><span style="color: #fa0b03">{{ v }}</span></td>
+                    {% else %}
+                        <td>{{ v }}</td>
+                    {% endif %}
+
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div id="barcon" class="barcon" >
+        <div id="barcon2" class="barcon2">
+            <ul>
+                <li><a id="prePage">上一页</a></li>
+                <li id="barcon1"></li>
+                <li><a id="nextPage">下一页</a></li>
+                <li><input type="text" id="num" size="2" oninput="value=value.replace(/[^\d]/g,'')"></li>
+                <li><a id="jumpPage" onclick="jumpPage()">跳转</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        $(function(){
+            $("#delete_table").click(function(){
+                //拿到input标签值，一定是表单值
+                var dataID = $("#data").val();
+                if (dataID == ''){
+                    alert('ID不允许为空!!!')
+
+                }else{
+
+                        $.post({
+                            "url": "/deletes",
+                            "data": {
+                                "delete_id": dataID,
+                                "table_type": "server_id",
+                                "table": "server"
+                            },
+                            "success": function(data){
+                                if (data["code"] == 200){
+                                    //跳转路由
+                                    window.location = "/server_zs";
+                                    alert("status: "+data["code"] +"\n"+"message: "+data["message"]);
+                                }else {
+                                    window.location = "/server_zs";
+                                    alert("status: "+data["code"]+"\n"+"message: "+data["message"]);
+                                }
+                                console.log(data);
+                            },
+                            "fail": function(error){
+                                console.log(error);
+                            }
+                        });
+                }
+
+            });
+        });
+    </script>
+
+
+    <script src="{{ url_for('static', filename='js/export.js') }}" type="text/javascript" charset="utf-8"></script>
+    <script src="{{ url_for('static', filename='js/xlsx.core.min.js') }}" type="text/javascript" charset="utf-8"></script>
+
+    <!-- 全选和导出execl脚本 -->
+    <script type="text/javascript">
+        function tableToExcel(tableDOM,filename) {
+            let tableSheet = XLSX.utils.table_to_sheet(tableDOM);
+            openDownloadDialog(sheet2blob(tableSheet),filename+'.xlsx');
+        }
+
+        $("#downExcel").click(() => {
+            let sheetTable = $("<table></table>");
+            sheetTable.append($("#myTable").find("thead").clone());
+            sheetTable.append($("<tbody></tbody>"));
+            let tbody = sheetTable.find("tbody");
+            let checkboxs = $(".checkbox:checked");
+            for (let checkbox of checkboxs) {
+                let tr = $(checkbox).parents('tr')[0];
+                console.log(tr);
+                tbody.append($(tr).clone());
+            }
+            sheetTable.find(".export-remove").parent().remove();
+            //文件名字可自定义
+            tableToExcel(sheetTable[0],"服务器巡检记录");
+        })
+
+        $(".all-checkbox").change(()=>{
+            $(".checkbox").prop("checked",$(".all-checkbox").prop("checked"));
+        })
+    </script>
+
+    <!-- 分页js脚本 -->
+    <script type="text/javascript">
+            $(function(){
+               goPage(1,100);
+            })
+
+           /**
+            * pno--页数
+            * psize--每页显示记录数
+            **/
+           var pageSize=1;
+           var currentPage_=1;
+           var totalPage;//总页数
+           function goPage(pno,psize){
+               var itable = document.getElementById("tablesData");
+               var num = itable.rows.length;
+
+               pageSize = psize;//每页显示行数
+               //总共分几页
+               if(num/pageSize > parseInt(num/pageSize)){
+                   totalPage=parseInt(num/pageSize)+1;
+               }else{
+                   totalPage=parseInt(num/pageSize);
+               }
+               var currentPage = pno;//当前页数
+               currentPage_=currentPage;
+               var startRow = (currentPage - 1) * pageSize+1;
+               var endRow = currentPage * pageSize;
+               endRow = (endRow > num)? num : endRow;
+
+               $("#tablesData tr").hide();
+               for(var i=startRow-1;i<endRow;i++) {
+                   $("#tablesData tr").eq(i).show();
+               }
+
+               var tempStr = currentPage+"/"+totalPage;
+               document.getElementById("barcon1").innerHTML = tempStr;
+
+               if(currentPage>1){
+                   $("#firstPage").on("click",function(){
+                       goPage(1,psize);
+                   }).removeClass("ban");
+                   $("#prePage").on("click",function(){
+                       goPage(currentPage-1,psize);
+                   }).removeClass("ban");
+               }else{
+                   $("#firstPage").off("click").addClass("ban");
+                   $("#prePage").off("click").addClass("ban");
+               }
+
+               if(currentPage<totalPage){
+                   $("#nextPage").on("click",function(){
+                       goPage(currentPage+1,psize);
+                   }).removeClass("ban")
+                   $("#lastPage").on("click",function(){
+                       goPage(totalPage,psize);
+                   }).removeClass("ban")
+               }else{
+                   $("#nextPage").off("click").addClass("ban");
+                   $("#lastPage").off("click").addClass("ban");
+               }
+           }
+
+           function jumpPage() {
+               var num=parseInt($("#num").val());
+               if(num != currentPage_ && !isNaN(num) && num <= totalPage && num > 0) {
+                   goPage(num,pageSize);
+               }
+           }
+    </script>
+
+</body>
+</html>

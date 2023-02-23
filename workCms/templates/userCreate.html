@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>usercreate</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.css') }}">
+    <script src="{{ url_for('static', filename='js/jquery-3.6.1.min.js') }}"></script>
+</head>
+<body>
+    <br><br>
+    <div>
+        <div class="input-group father" style="width: 500px">
+                <span class="input-group-addon" id="basic-addon1" style="width: 80px">用户名</span>
+                <input type="text" class="form-control" aria-describedby="basic-addon1" id="user" name="user">
+        </div><br>
+        <form>
+        <div class="input-group father" style="width: 500px">
+                <span class="input-group-addon" id="basic-addon1" style="width: 80px">密码</span>
+                <input type="password" class="form-control" aria-describedby="basic-addon1" id="passwd" name="passwd" autocomplete="off">
+        </div>
+        </form><br>
+        <form>
+        <div class="input-group father" style="width: 500px">
+                <span class="input-group-addon" id="basic-addon1" style="width: 80px">确认密码</span>
+                <input type="password" class="form-control" aria-describedby="basic-addon1" id="passwd1" name="passwd1" autocomplete="off">
+        </div>
+        </form><br>
+
+        <div class="input-group father" style="width: 500px">
+            <span class="input-group-addon" id="basic-addon1" style="width: 80px">权限选择</span>
+            <select id="qx" name="qx" class="form-control">
+                <option>Admin</option>
+                <option>Ordinary</option>
+            </select>
+        </div><br>
+    </div>
+    <input  id="usercre" type="button" class="btn btn-primary father" value="创建用户">
+
+    <script>
+        $(function(){
+            $("#usercre").click(function(){
+                //拿到input标签值，一定是表单值
+                var user = $("#user").val();
+                var passwd = $("#passwd").val();
+                var passwd1 = $("#passwd1").val();
+                var qx = $("#qx").val();
+                if (user == ''|| passwd == ''||passwd1 == ''){
+                    window.location = '/user/usercreate';
+                    alert('字段不允许为空!!!');
+                };
+                if (passwd != passwd1){
+                    window.location = '/user/usercreate';
+                    alert('密码输入不一致!');
+                }else{
+                        $.post({
+                            "url": "/user/usercreate",
+                            "data": {
+                                "user": user,
+                                "passwd": passwd,
+                                "authority": qx
+                            },
+                            "success": function(data){
+                                if (data["code"] == 200){
+                                    //跳转路由
+                                    window.location = "/user/usercreate";
+                                    alert("status: "+data["code"] +"\n"+"message: "+data["message"]);
+                                }else {
+                                    window.location = "/user/usercreate";
+                                    alert("status: "+data["code"]+"\n"+"message: "+data["message"]);
+                                }
+                            },
+                            "fail": function(error){
+                                console.log(error);
+                            }
+                        });
+                }
+
+            });
+        });
+    </script>
+</body>
+</html>

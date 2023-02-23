@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<body lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>服务器巡检记录</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.6.1.min.js') }}"></script>
+</head>
+
+
+<body>
+      <form class="#">
+        <div class="#">
+          <label>巡检日期/时间</label>
+          <input id="datetime" name="datetime" type="text" class="form-control"  placeholder="2022/8/1">
+
+          <label>巡检服务器主机名/IP</label>
+          <input id="serverNameIp" name="serverNameIp" type="text" class="form-control"  placeholder="IP或者主机名,全部就all">
+
+          <label>数据库数据今日是否备份</label>
+            <input id="dataBakup" name="dataBackup" type="text" class="form-control"  placeholder="已备份/未备份">
+
+            <label>服务器状态</label>
+          <input id="serverStatus" name="serverStatus" type="text" class="form-control"  placeholder="正常/不正常">
+
+            <label>服务器今日告警次数</label>
+          <input id="policeNum" name="policeNum" type="number" class="form-control"  placeholder="请输入数字">
+
+            <label>服务器告警信息</label>
+          <textarea id="policeInfo" name="policeInfo" placeholder="告警文本" class="form-control" rows="5"></textarea>
+
+            <label>巡检人</label>
+          <input id="checkName" name="checkName" type="text" class="form-control"  placeholder="名字">
+          <br><br>
+          <button id="tj" class="btn btn-primary">提交记录</button>
+          <input class="btn btn-warning" type="reset" value="重置">
+          <a href="{{ url_for('server_check.server_zs') }}">
+            <button type="button" class="btn btn-info">查看巡检记录</button>
+          </a>
+        </div>
+      </form>
+
+    <script>
+       $(function(){
+
+            $("#tj").click(function(){
+                var input_datetime = $("#datetime").val();
+                var input_serverName = $("#serverNameIp").val();
+                var input_dataBackup = $("#dataBakup").val();
+                var input_serverStatus = $("#serverStatus").val();
+                var input_policeNum = $("#policeNum").val();
+                var input_policeInfo = $("#policeInfo").val();
+                var input_checkName = $("#checkName").val();
+                if (input_datetime == '' || input_serverName == '' || input_dataBackup == ''||input_serverStatus == ''||input_policeNum == ''||input_policeInfo == ''||input_checkName == '') {
+                  alert('字段不允许为空！');
+                }else {
+                    $.post({
+                        "url": "/server_w_database",
+                        "data": {
+                            "datetime": input_datetime,
+                            "serverName": input_serverName,
+                            "dataBackup": input_dataBackup,
+                            "serverStatus": input_serverStatus,
+                            "policeNum": input_policeNum,
+                            "policeInfo": input_policeInfo,
+                            "checkName": input_checkName
+                        }
+                    });
+                    alert('数据提交成功！');
+                }
+
+            });
+        });
+
+    </script>
+
+</body>
+</html>

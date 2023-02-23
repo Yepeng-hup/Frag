@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>文件上传</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.css') }}">
+    <script src="{{ url_for('static', filename='js/jquery-3.6.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/all.js') }}"></script>
+</head>
+
+<body>
+
+    <form class="#" method="post" action="{{ url_for('file.push_w') }}" enctype="multipart/form-data">
+            {% for filedata in listdir %}
+                <option>{{filedata}}</option>
+            {% endfor %}
+    </form>
+
+    <form action="{{ url_for('file.push_w') }}" method="POST"  enctype="multipart/form-data">
+        <span class="btn btn-info">目录选择</span>
+        <select id="idnum" name="num" class="btn btn-success">
+            {% for backupDir in backupDir %}
+                <option>{{ backupDir }}</option>
+            {% endfor %}
+        </select>
+
+
+        <br \><br \><br \><br \><br \>
+        <div id="divd">
+            <span>*支持多文件上传，同时上传最多3个文件*</span><br>
+            <input type="file" name="file" id="files" class="btn btn-success" aria-hidden="true" multiple="multiple">
+        </div>
+        <div id="files-info"></div>
+        {% if status == '文件上传成功' %}
+            <p><font color="green" size="3">{{ status }}</font></p>
+        {% else %}
+            <p><font color="red" size="3">{{ status }}</font></p>
+        {% endif %}
+        <button id="tj" type="submit" class="btn btn-primary">提交</button>
+        <button class="btn btn-warning" type="reset" onclick="reloads()">重置</button>
+
+    </form>
+    <hr>
+
+    <form>
+        <p class="father btn btn-success">已有数据展示</p>
+        <br \>
+        <table class="table table-striped">
+            <tr>
+                {% for i in backupData %}
+                <td class="hen" ><font color="green">{{i}}&nbsp&nbsp&nbsp</font></td>
+                {% endfor %}
+            </tr>
+        </table>
+    </form>
+
+    <script>
+            window.onload = function () {
+            var fileInput = document.getElementById('files');
+            var info = document.getElementById('files-info');
+
+            // 监听change事件:
+            fileInput.addEventListener('change', function () {
+                // 检查文件是否选择:
+                if (!fileInput.value) {
+                    info.innerHTML = '没有选择文件!';
+                    return;
+                }
+                // 获取File引用:
+                var file = fileInput.files;
+                if (file.length > 3) {
+                    window.location = '/push';
+                    alert('上传文件数量过大！')
+                    {#setTimeout(function(){#}
+	                {#    window.location = '/push';#}
+                    {#//}, 2000);#}
+                }
+                for (var i=0; i<=file.length; i++) {
+                    // 获取File信息:
+                    info.innerHTML +='<div>'+ '文件: ' + file[i].name + '<br>' +
+                        '大小: ' + formatSize(file[i].size) + '<br>' +
+                        '修改: ' + file[i].lastModifiedDate + '</div>'+'<hr>';
+                }
+            });
+        };
+
+        function formatSize(size) {
+          if (size > 1024 && size <= 1048576) {
+            return Math.floor(size / 1024) + 'KB';
+          } else if (size > 1048576) {
+            return Math.floor(size / 1024 / 1024) + 'MB';
+          }
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+.father {
+    width: 25%;
+    margin: auto;
+    display: flex;
+    justify-content: space-around;
+  } 
