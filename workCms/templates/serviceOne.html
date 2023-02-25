@@ -56,39 +56,6 @@
        </table>
     </div>
 
-    <script>
-        $(function(){
-            $("#del").click(function(){
-                //拿到input标签值，一定是表单值
-                var service = $("#service").val();
-                if (service == ''){
-                    window.location = '/serviceone'
-                    alert('服务名不允许为空!!!');
-
-                }else{
-                        $.post({
-                            "url": "/urldel",
-                            "data": {
-                                "service": service
-                            },
-                            "success": function(data){
-                                if (data["code"] == 200){
-                                    //跳转路由
-                                    window.location = "/serviceone";
-                                    alert("status: "+data["code"] +"\n"+"message: "+data["message"]);
-                                }else {
-                                    window.location = "/serviceone";
-                                    alert("status: "+data["code"]+"\n"+"message: "+data["message"]);
-                                }
-                            },
-                            "fail": function(error){
-                                console.log(error);
-                            }
-                        });
-                }
-
-            });
-        });
-    </script>
+    <script src="{{ url_for('static', filename='js/addService.js') }}"></script>
 </body>
 </html>

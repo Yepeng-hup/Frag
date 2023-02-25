@@ -33,35 +33,6 @@
         </div>
       </form>
 
-      <script>
-       $(function(){
-
-            $("#tj").click(function(){
-                //拿到input标签值，一定是表单值
-                var input_date = $("#date").val();
-                var input_time = $("#time").val();
-                var input_info = $("#info").val();
-                var input_hefuName = $("#hefuName").val();
-                if (input_date == '' || input_time == '' || input_info == '' || input_hefuName == '') {
-                  alert('字段不允许为空！')
-                }else (
-                  $.post({
-                      "url": "/hefu_w_database",
-                      "data": {
-                          "date": input_date,
-                          "time": input_time,
-                          "info": input_info,
-                          "hefuName": input_hefuName
-                        },
-
-                    }),
-
-                  alert('数据提交成功！')
-
-                );
-
-            });
-        });        
-      </script>
+      <script src="{{ url_for('static', filename='js/shut.js') }}"></script>
 </body>
 </html>

@@ -34,35 +34,7 @@
         </div>
       </form>
 
-      <script>
-        
-       $(function(){
-
-            $("#tj").click(function(){
-                //拿到input标签值，一定是表单值
-                var input_date = $("#date").val();
-                var input_info = $("#info").val();
-                var input_eventName = $("#eventName").val();
-                if (input_date == '' || input_info == '' || input_eventName == '') {
-                  alert('字段不允许为空！')
-                }else (
-                  $.post({
-                      "url": "/event_w_database",
-                      "data": {
-                          "date": input_date,
-                          "info": input_info,
-                          "eventName": input_eventName
-                        },
-
-                    }),
-
-                  alert('数据提交成功！')
-
-                );
-
-            });
-        });
-      </script>
+      <script src="{{ url_for('static', filename='js/event.js') }}"></script>
 
 </body>
 </html>

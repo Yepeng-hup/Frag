@@ -32,7 +32,6 @@
         <input  id="pwdupdate" type="button" class="btn btn-primary" value="确认修改">
 
     <hr>
-{#    <button class="wk-btn" style="margin: 3px"><input type="checkbox" id="tbAll" style="margin: 2px;text-align: center;">全选</button>#}
     <li>
         <span style="color: #6d61ea"><b>用户列表</b></span>
     </li>
@@ -59,71 +58,7 @@
         </tbody>
     </table>
 
-    <script>
-        function deleteCheckbox() {
-            var items=document.getElementsByClassName('cb');
-            var len=items.length;
-            for (var i=len-1; i>=0;i--) {
-                var is_checkd = items[i].checked;
-                if (is_checkd) {
-                    var divItems = items[i].parentNode.parentNode;
-                    var divlr = divItems.innerText
-                    $.post(
-                        {
-                            "url": "/user/delete",
-                            "data": {
-                                "name": divlr
-                            }
-                        },
-                        
-                    )
-                    divItems.parentNode.removeChild(divItems);
-                }
-            }
-        }
-    </script>
-
-    <script>
-        $(function(){
-            $("#pwdupdate").click(function(){
-                //拿到input标签值，一定是表单值
-                var user = $("#user").val();
-                var passwd = $("#passwd").val();
-                var passwd1 = $("#passwd1").val();
-                if (user == ''|| passwd == ''||passwd1 == ''){
-                    window.location = '/user/userlist'
-                    alert('字段不允许为空!!!');
-
-                };
-                if (passwd != passwd1){
-                    window.location = '/user/userlist'
-                    alert('密码输入不一致!')
-                }else{
-                        $.post({
-                            "url": "/user/update",
-                            "data": {
-                                "user": user,
-                                "passwd": passwd
-                            },
-                            "success": function(data){
-                                if (data["code"] == 200){
-                            
-                                    window.location = "/user/userlist";
-                                    alert("status: "+data["code"] +"\n"+"message: "+data["message"]);
-                                }else {
-                                    window.location = "/user/userlist";
-                                    alert("status: "+data["code"]+"\n"+"message: "+data["message"]);
-                                }
-                            },
-                            "fail": function(error){
-                                console.log(error);
-                            }
-                        });
-                }
-
-            });
-        });
-    </script>
+    <script src="{{ url_for('static', filename='js/user.js') }}"></script>
 
 </body>
 </html>

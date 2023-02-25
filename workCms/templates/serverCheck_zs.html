@@ -77,49 +77,12 @@
         </div>
     </div>
 
-    <script>
-        $(function(){
-            $("#delete_table").click(function(){
-                //拿到input标签值，一定是表单值
-                var dataID = $("#data").val();
-                if (dataID == ''){
-                    alert('ID不允许为空!!!')
-
-                }else{
-
-                        $.post({
-                            "url": "/deletes",
-                            "data": {
-                                "delete_id": dataID,
-                                "table_type": "server_id",
-                                "table": "server"
-                            },
-                            "success": function(data){
-                                if (data["code"] == 200){
-                                    //跳转路由
-                                    window.location = "/server_zs";
-                                    alert("status: "+data["code"] +"\n"+"message: "+data["message"]);
-                                }else {
-                                    window.location = "/server_zs";
-                                    alert("status: "+data["code"]+"\n"+"message: "+data["message"]);
-                                }
-                                console.log(data);
-                            },
-                            "fail": function(error){
-                                console.log(error);
-                            }
-                        });
-                }
-
-            });
-        });
-    </script>
+    <script src="{{ url_for('static', filename='js/server.js') }}"></script>
 
 
     <script src="{{ url_for('static', filename='js/export.js') }}" type="text/javascript" charset="utf-8"></script>
     <script src="{{ url_for('static', filename='js/xlsx.core.min.js') }}" type="text/javascript" charset="utf-8"></script>
 
-    <!-- 全选和导出execl脚本 -->
     <script type="text/javascript">
         function tableToExcel(tableDOM,filename) {
             let tableSheet = XLSX.utils.table_to_sheet(tableDOM);
@@ -138,7 +101,6 @@
                 tbody.append($(tr).clone());
             }
             sheetTable.find(".export-remove").parent().remove();
-            //文件名字可自定义
             tableToExcel(sheetTable[0],"服务器巡检记录");
         })
 
@@ -147,31 +109,24 @@
         })
     </script>
 
-    <!-- 分页js脚本 -->
     <script type="text/javascript">
             $(function(){
                goPage(1,100);
             })
-
-           /**
-            * pno--页数
-            * psize--每页显示记录数
-            **/
            var pageSize=1;
            var currentPage_=1;
-           var totalPage;//总页数
+           var totalPage;
            function goPage(pno,psize){
                var itable = document.getElementById("tablesData");
                var num = itable.rows.length;
 
-               pageSize = psize;//每页显示行数
-               //总共分几页
+               pageSize = psize;
                if(num/pageSize > parseInt(num/pageSize)){
                    totalPage=parseInt(num/pageSize)+1;
                }else{
                    totalPage=parseInt(num/pageSize);
                }
-               var currentPage = pno;//当前页数
+               var currentPage = pno;
                currentPage_=currentPage;
                var startRow = (currentPage - 1) * pageSize+1;
                var endRow = currentPage * pageSize;

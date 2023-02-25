@@ -4,7 +4,7 @@ Frag:
   dbUser: 'root'
   dbHost: 127.0.0.1
   dbPort: 3306
-  dbPasswd: 'xxxxxxxx'
+  dbPasswd: 'xxxxxxxxxxxxx'
   PushData_save_dir: '/opt/'
   flask_port: 14000
   flask_addr: '127.0.0.1'

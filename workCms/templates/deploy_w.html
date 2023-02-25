@@ -32,37 +32,6 @@
         </div>
       </form>
 
-    <script>
-
-       $(function(){
-
-            $("#tj").click(function(event){
-                //拿到input标签值，一定是表单值
-                var input_date = $("#date").val();
-                var input_time = $("#time").val();
-                var input_info = $("#info").val();
-                var input_deployName = $("#deployName").val();
-                if (input_date == '' || input_time == '' || input_info == '' || input_deployName == '') {
-                  alert('字段不允许为空！')
-                }else (
-                  $.post({
-                      "url": "/deploy_w_database",
-                      "data": {
-                          "date": input_date,
-                          "time": input_time,
-                          "info": input_info,
-                          "deployName": input_deployName
-                        },
-
-                    }),
-
-                  alert('数据提交成功！')
-
-                );
-
-            });
-        });
-
-    </script>
+    <script src="{{ url_for('static', filename='js/deploy.js') }}"></script>
 </body>
 </html>
