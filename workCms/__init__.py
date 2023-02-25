@@ -1,13 +1,13 @@
 from flask import Flask
-from .views.user import user
-from .views.deploy import deployJL
-from .views.shut import hefuJL
-from .views.event import eventJL
-from .views.serverCheck import server_check
-from .views.serviceone import serviceone
-from .views.file import file
-from .views.codePush import codepush
-from .views.deleteApi import delete
+from workCms.views.user import user
+from workCms.views.deploy import deployJL
+from workCms.views.shut import hefuJL
+from workCms.views.event import eventJL
+from workCms.views.serverCheck import server_check
+from workCms.views.serviceone import serviceone
+from workCms.views.file import file
+from workCms.views.codePush import codepush
+from workCms.views.deleteApi import delete
 
 app = Flask(__name__)
 app.secret_key = 'ddfkowfwfmfddddcccvvvrtRTYssa345oplyt'

@@ -8,30 +8,8 @@
     <title>首页</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
-    <script src="{{ url_for('static', filename='js/echarts.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.1/echarts.min.js"></script>
     <script src="{{ url_for('static', filename='js/jquery-3.6.1.min.js') }}"></script>
-    <style>
-        .fl{
-            float: left;
-        }
-        .wk{
-            width: 200px;
-            height: 200px;
-            background-color: #eaf1f3;
-            /*左边距*/
-            margin-left: 20px;
-
-        }
-        .div2{
-            width: 400px;
-            height: 400px;
-            margin-left: 10px;
-            margin-top: 250px;
-            background-color: #ffffff;
-            border-radius: 10px;
-
-        }
-    </style>
 </head>
 
 <body>
@@ -65,9 +43,7 @@
         <script type="text/javascript">
             var myChart = echarts.init(document.getElementById('main-deploy'));
 
-            // 异步加载json数据
             $.get('/deploy_data_handle').done(function(data) {
-                // 填入数据
                 myChart.setOption({
                     title: {
                         text: '历史维护展示图'
