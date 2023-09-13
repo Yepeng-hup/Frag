@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>redis</title>
+    <link rel="stylesheet" href="{{ url_for("static", filename="css/tools/bootstrap.min.css") }}">
+    <script src="{{ url_for('static', filename='js/tools/jquery.slim.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/tools/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/tools/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery-3.6.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/rs.js') }}"></script>
+</head>
+<body>
+    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="pills-str-tab" data-toggle="pill" data-target="#pills-str" type="button" role="tab" aria-controls="pills-home" aria-selected="true"><b>String</b></button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-list-tab" data-toggle="pill" data-target="#pills-list" type="button" role="tab" aria-controls="pills-profile" aria-selected="false"><b>List</b></button>
+      </li>
+    </ul>
+    <div>
+      <a style="float: right" href="{{ url_for('redisx./redisx/rel') }}">
+        <input type="button" id="cmdRes" value="结果查看" class="btn btn-success">
+     </a>
+    </div>
+    <div class="tab-content" id="pills-tabContent">
+      <div class="tab-pane fade show active" id="pills-str" role="tabpanel" aria-labelledby="pills-str-tab">
+          <span style="color: #6d61ea"><b>redis 字符串类型</b></span>
+          <table class="table table-hover" style="margin-top: 5px">
+              <thead>
+                <th scope="col">命令</th>
+                <th scope="col">键/值</th>
+                <th scope="col">动作</th>
+              </thead>
+              <tbody>
+                <tr>
+                    <td data-toggle="tooltip" data-placement="left" title="新建">set</td>
+                    <td>
+                        <input type="text" id="set_k" placeholder="key">
+                        <input type="text" id="set_v" placeholder="value">
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" onclick="fs('set')">执行</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-toggle="tooltip" data-placement="left" title="值后面追加字符">append</td>
+                    <td>
+                        <input  id="append_k" type="text" placeholder="key">
+                        <input id="append_v" type="text" placeholder="value">
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" onclick="fs('append')">执行</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-toggle="tooltip" data-placement="left" title="获取值">get</td>
+                    <td>
+                        <input id="get_k" type="text" placeholder="key">
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" onclick="fs('get')">执行</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-toggle="tooltip" data-placement="left" title="删除key">del</td>
+                    <td>
+                        <input  id="del_k" type="text" placeholder="key">
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" onclick="fs('del')">执行</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-toggle="tooltip" data-placement="left" title="统计值大小">strlen</td>
+                    <td>
+                        <input id="strlen_k" type="text" placeholder="key">
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" onclick="fs('strlen')">执行</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-toggle="tooltip" data-placement="left" title="新建带过期时间的key">setex</td>
+                    <td>
+                        <input id="setex_k" type="text" placeholder="key">
+                        <input id="k_time" type="text" placeholder="key过期时间/s">
+                        <input id="setex_v" type="text" placeholder="value">
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" onclick="fs('setex')">执行</button>
+                    </td>
+                </tr>
+              </tbody>
+          </table>
+          <hr>
+      </div>
+      <div class="tab-pane fade" id="pills-list" role="tabpanel" aria-labelledby="pills-list-tab">
+          <span style="color: #6d61ea"><b>redis 列表类型</b></span>
+          <table class="table table-hover" style="margin-top: 5px">
+              <thead>
+                <th scope="col">命令</th>
+                <th scope="col">键/值</th>
+                <th scope="col">动作</th>
+              </thead>
+              <tbody>
+                <tr>
+                    <td data-toggle="tooltip" data-placement="left" title="新建key">lpush</td>
+                    <td>
+                        <input id="lpush_k" type="text" placeholder="list key">
+                        <input id="lpush_v" type="text" placeholder="value">
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" onclick="fList('lpush')">执行</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-toggle="tooltip" data-placement="left" title="列出索引值">lindex</td>
+                    <td>
+                        <input id="lindex_k" type="text" placeholder="list key">
+                        <input id="lindex_i" type="text" placeholder="index num">
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" onclick="fList('lindex')">执行</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-toggle="tooltip" data-placement="left" title="默认删除新加元素">lpop</td>
+                    <td>
+                        <input id="lpop_k" type="text" placeholder="list key">
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" onclick="fList('lpop')">执行</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-toggle="tooltip" data-placement="left" title="列出索引范围值">lrange</td>
+                    <td>
+                        <input id="lrange_k" type="text" placeholder="list key">
+                        <input id="lrange_i_s" type="text" placeholder="index_start 0">
+                        <input id="lrange_i_end" type="text" placeholder="index_stop 5">
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" onclick="fList('lrange')">执行</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-toggle="tooltip" data-placement="left" title="统计列表长度">llen</td>
+                    <td>
+                        <input id="llen_k" type="text" placeholder="list key">
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" onclick="fList('llen')">执行</button>
+                    </td>
+                </tr>
+              </tbody>
+          </table>
+          <hr>
+      </div>
+</body>
+</html>

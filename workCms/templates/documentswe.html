@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>documents</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tools/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.css') }}">
+    <script src="{{ url_for('static', filename='js/wangEditor/wangEditor.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery-3.6.1.min.js') }}"></script>
+</head>
+<body>
+    <div>
+        <span><img src="{{ url_for('static', filename='images/laba.png') }}" style="width: 35px; height: 35px"></span>
+        <span>正文上传图片要命名，不然系统会覆盖。</span>
+    </div><br>
+
+    <div>
+        <table><b>标题</b></table>
+        <input id="title" name="title" type="text" class="form-control">
+        <table><b>类别选择</b></table>
+        <select id="classxz" name="classxz" class="form-control selects" style="width: 300px">
+            {% for i in title %}
+                {% for _, v in i.items() %}
+            <option>{{ v }}</option>
+                {% endfor %}
+            {% endfor %}
+        </select>
+    </div>
+    <table><b>正文</b></table>
+    <div id="div1"></div><br>
+    <div style="text-align: center">
+        <button id="publish" class="btn btn-primary" style="width: 250px">发布文档</button>
+    </div>
+
+    <!-- 引入 wangEditor.min.js -->
+    <script type="text/javascript">
+        const E = window.wangEditor;
+        const editor = new E('#div1');
+        {#上传照片接口#}
+        editor.config.uploadImgServer = '/documents/images/upload';
+        {#照片大小限制#}
+        editor.config.uploadImgMaxSize = 1024*1024*5;
+        editor.create();
+
+        $(function(){
+            $("#publish").click(function(){
+                var input_title = $("#title").val();
+                var input_classxz = $("#classxz").val();
+                {#获取编辑器中的内容#}
+                var input_content = editor.txt.html();
+
+                if (input_title == '') {
+                    window.location='/documents/we';
+                    alert('字段不允许为空！');
+                }else (
+                   $.post({
+                      "url": "/documents/we",
+                      "data": {
+                          "title": input_title,
+                          "classxz": input_classxz,
+                          "content_html": input_content
+                        },
+                      "success": function(data){
+                        if (data["code"] == 200){
+                            window.location = '/documents/we'
+                            alert("status: "+data["code"] +"\n"+"message: "+data["message"]);
+                        }else {
+                            {#window.location = '/documents/we'#}
+                            alert("status: "+data["code"] +"\n"+"message: "+data["message"]);
+                        }
+                        console.log(data);
+                        },
+                        "fail": function(error){
+                            console.log(error);
+                        }
+
+                    })
+
+                );
+            });
+        });
+    </script>
+
+</body>
+</html>

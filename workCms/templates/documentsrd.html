@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>documents</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tools/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.css') }}">
+</head>
+<body>
+    <div class="container">
+        <form class="parent" method="post" action="{{ url_for('documents./documents/rd') }}">
+            <input name="search" type="text" placeholder="输入关键字">
+            <input type="submit" value="搜索文章">
+        </form>
+    </div><br>
+
+{#        <form action="{{ url_for('documents./documents/rd') }}" method="post">#}
+{#            <input style="float: right; height: 40px" class="btn-primary" type="submit" value="搜索">#}
+{#            <input style="float: right; width: 230px; height: 40px; border:1px solid #000000;" type="search" name="search" placeholder="搜索文章">#}
+{#        </form><br><br><br>#}
+
+    <div>
+        <table class="table table-bordered table-hove">
+            <thead>
+                <tr>
+                    <th>发布标题</th>
+                    <th>发布时间</th>
+                    <th>动作</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for k, v in rel.items() %}
+                    <tr>
+                        <td>{{ k }}</td>
+                        <td>{{ v }}</td>
+                        <td>
+                            <a href="/documents/catfiel/{{ k }}"><input type="submit" class="btn btn-success" value="查看文章"></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

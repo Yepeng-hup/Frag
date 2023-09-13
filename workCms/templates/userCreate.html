@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>usercreate</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tools/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.css') }}">
+    <script src="{{ url_for('static', filename='js/jquery-3.6.1.min.js') }}"></script>
+</head>
+<body>
+    <h4><b>用户创建</b></h4><br>
+    <div style="margin-top: 60px">
+        <div class="input-group father" style="width: 500px">
+                <span class="input-group-addon" id="basic-addon1" style="width: 80px">用户名</span>
+                <input type="text" class="form-control" aria-describedby="basic-addon1" id="user" name="user">
+        </div><br>
+        <form>
+        <div class="input-group father" style="width: 500px">
+                <span class="input-group-addon" id="basic-addon1" style="width: 80px">密码</span>
+                <input type="password" class="form-control" aria-describedby="basic-addon1" id="passwd" name="passwd" autocomplete="off">
+        </div>
+        </form><br>
+        <form>
+        <div class="input-group father" style="width: 500px">
+                <span class="input-group-addon" id="basic-addon1" style="width: 80px">确认密码</span>
+                <input type="password" class="form-control" aria-describedby="basic-addon1" id="passwd1" name="passwd1" autocomplete="off">
+        </div>
+        </form><br>
+
+        <div class="input-group father" style="width: 500px">
+            <span class="input-group-addon" id="basic-addon1" style="width: 80px">权限选择</span>
+            <select id="qx" name="qx" class="form-control">
+                <option>Admin</option>
+                <option>Ordinary</option>
+            </select>
+        </div><br>
+    </div>
+    <input  id="usercre" type="button" class="btn btn-primary father" value="创建用户">
+
+    <script src="{{ url_for('static', filename='js/user.js') }}"></script>
+</body>
+</html>

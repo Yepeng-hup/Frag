@@ -1,0 +1,148 @@
+.sub-main-w3 {
+    display: -webkit-flex;
+    display: -webkit-box;
+    display: -moz-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    -webkit-box-pack: center;
+    -moz-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+}
+
+.sub-main-w3 form {
+    max-width: 500px;
+    margin: 0 5vw;
+    background: rgba(66, 62, 62, 0.17);
+    padding: 3.5vw;
+    box-sizing: border-box;
+    display: -webkit-flex;
+    /*形状*/
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    /*border-bottom: 8px solid #d01652;*/
+    /*边角改变*/
+    border-radius: 15px 15px 15px 15px;
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
+    background-color: #fff;
+}
+
+.sub-main-w3 label {
+    font-size: 14px;
+    color: #6d61ea;
+    display: inline-block;
+    font-weight: 500;
+    margin-bottom: 12px;
+    text-transform: capitalize;
+    letter-spacing: 1px;
+}
+
+.sub-main-w3 label i {
+    font-size: 15px;
+    margin-left: 5px;
+    color: #f7296f;
+    border-radius: 50%;
+    line-height: 1.9;
+    text-align: center;
+}
+
+.sub-main-w3 input[type="submit"] {
+    color: #ffffff;
+    background: #6d61ea;
+    border: none;
+    padding: 13px 0;
+    margin-top: 10px;
+    outline: none;
+    width: 36%;
+    font-size: 16px;
+    cursor: pointer;
+    letter-spacing: 2px;
+    -webkit-transition: 0.5s all;
+    -o-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    transition: 0.5s all;
+    box-shadow: 2px 2px 6px #6d61ea;
+    border-radius: 5px;
+}
+
+.sub-main-w3 input[type="submit"]:hover {
+    -webkit-transition: 0.5s all;
+    -o-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -ms-transition: 0.5s all;
+    transition: 0.5s all;
+}
+
+
+.wthree-text {
+    width: 100%;
+}
+
+.wthree-text ul li:nth-child(1) {
+    float: left;
+}
+
+.wthree-text ul li:nth-child(2) {
+    float: right;
+}
+
+.wthree-text ul li {
+    display: inline-block;
+}
+
+.wthree-text ul li a {
+    color: #032054;
+    font-size: 14px;
+    letter-spacing: 1px;
+    font-weight: 500;
+}
+
+/*-- checkbox --*/
+
+.wthree-text label {
+    font-size: 15px;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+}
+
+.wthree-text {
+    text-align: center;
+}
+
+.form-style-agile {
+    margin-bottom: 1.5em;
+    flex-basis: 100%;
+    -webkit-flex-basis: 100%;
+}
+
+.form-style-agile input[type="text"],
+.form-style-agile input[type="password"] {
+    width: 100%;
+    color: #000000;
+    outline: none;
+    font-size: 14px;
+    letter-spacing: 1px;
+    padding: 15px 15px;
+    box-sizing: border-box;
+    background: #fff;
+    border-radius: 5px;
+    border: 2px solid #ccc;
+    margin-bottom: 20px;
+}
+
+.zt {
+    color: rgb(0, 0, 255)
+}
+
+.father {
+  width: 30%;
+  margin: auto;
+  display: flex;
+  justify-content: space-around;
+}
+

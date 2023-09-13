@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lock</title>
+    <link rel="stylesheet" href={{ url_for('static', filename='css/tools/bootstrap.min.css') }}>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dialog.css') }}"/>
+    <script src="{{ url_for('static', filename='js/jquery-3.6.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dialog.min.js') }}"></script>
+</head>
+<body>
+
+<h4><b>用户加解锁列表</b></h4><br>
+
+
+<div>
+    <table class="table table-bordered table-hove">
+        <thead>
+            <th>#</th>
+            <th>锁记录时间</th>
+            <th>用户名</th>
+            <th>锁状态</th>
+            <th>动作</th>
+        </thead>
+
+        <tbody>
+        {% for i in lockList %}
+            <tr>
+                <div class="items">
+                    <td><input class="cb" type="checkbox"/></td>
+                    {% for _,v in i.items() %}
+                        {% if v == "true" %}
+                        <td><span style="color: #fa0b03">{{ v }}</span></td>
+                        {% elif v == "false" %}
+                            <td><span style="color: #49e009">{{ v }}</span></td>
+                        {% else %}
+                            <td>{{ v }}</td>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <td>
+                    <button class="btn btn-danger" onclick="setLock()">加锁</button>
+                    <button class="btn btn-primary" onclick="undoLock()" style="margin-left: 20px">解锁</button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<hr>
+<h4><b>用户角色表</b></h4><br>
+<div>
+    <table class="table table-bordered table-hove">
+        <thead>
+            <th style="text-align: center">用户</th>
+            <th style="text-align: center">角色</th>
+        </thead>
+        <tbody style="text-align: center">
+                {% for i in userIdentity %}
+                    <tr>
+                    {% for _,v in i.items() %}
+                        <td>{{ v }}</td>
+                    {% endfor %}
+                    </tr>
+                {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function setLock() {
+        var items = document.getElementsByClassName('cb');
+        var len = items.length;
+        for (var i = len - 1; i >= 0; i--) {
+            var is_checkd = items[i].checked;
+            if (is_checkd) {
+                var divItems = items[i].parentNode.parentNode;
+                var divlr = divItems.innerText
+                $.post(
+                    {
+                        "url": "/user/lock/add",
+                        "data": {
+                            "lock_status": divlr
+                        },
+                        "success": function (data) {
+                            if (data["code"] == 200) {
+
+                                window.location = "/user/lock/index";
+                                alert("status: " + data["code"] + "\n" + "message: " + data["message"]);
+                            } else {
+                                window.location = "/user/lock/index";
+                                alert("status: " + data["code"] + "\n" + "message: " + data["message"]);
+                            }
+                        },
+                        "fail": function (error) {
+                            console.log(error);
+                        }
+                    },
+                )
+            }
+        }
+    }
+
+    function undoLock() {
+        var items = document.getElementsByClassName('cb');
+        var len = items.length;
+        for (var i = len - 1; i >= 0; i--) {
+            var is_checkd = items[i].checked;
+            if (is_checkd) {
+                var divItems = items[i].parentNode.parentNode;
+                var divlr = divItems.innerText
+                $.post(
+                    {
+                        "url": "/user/lock/undo",
+                        "data": {
+                            "lock_status": divlr
+                        },
+                        "success": function (data) {
+                            if (data["code"] == 200) {
+
+                                window.location = "/user/lock/index";
+                                alert("status: " + data["code"] + "\n" + "message: " + data["message"]);
+                            } else {
+                                window.location = "/user/lock/index";
+                                alert("status: " + data["code"] + "\n" + "message: " + data["message"]);
+                            }
+                        },
+                        "fail": function (error) {
+                            console.log(error);
+                        }
+                    },
+                )
+            }
+        }
+    }
+</script>
+
+</body>
+</html>

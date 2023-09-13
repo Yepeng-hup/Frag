@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<body lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>事件记录详情</title>
+    <link rel="stylesheet" href={{ url_for('static', filename='css/tools/bootstrap.min.css') }}>
+    <script src="{{ url_for('static', filename='js/jquery-3.6.1.min.js') }}"></script>
+</head>
+
+<body>
+    <br>
+    <form>
+        <div class="form-group">
+
+          <label>事件日期</label>
+          <input id="date" name="event_date" type="text" class="form-control"  placeholder="2022/8/1 and *">
+
+          <label>事件详情</label>
+          <textarea id="info" name="event_info" type="text" class="form-control"  placeholder="write in text" rows="6"></textarea>
+
+            <label>执行人</label>
+          <input id="eventName" name="event_name" type="text" class="form-control">
+          
+          <br><br>
+
+          <button id="tj" type="submit" class="btn btn-primary">提交记录</button>
+          <input class="btn btn-warning" type="reset" value="重置">
+          <a href="{{ url_for('event.event_zs') }}">
+            <button type="button" class="btn btn-info">查看事件记录</button>
+          </a>
+        </div>
+      </form>
+
+      <script src="{{ url_for('static', filename='js/event.js') }}"></script>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cmdres</title>
+    <link rel="stylesheet" href={{ url_for('static', filename='css/tools/bootstrap.min.css') }}>
+</head>
+<body>
+    <div>
+        <li>
+            <span>原文格式</span>
+        </li>
+        <hr>
+        <div>
+            <pre class="text-white bg-dark">{{ cmdResInfo }}</pre>
+        </div>
+    </div>
+</body>
+</html>

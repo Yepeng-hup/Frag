@@ -1,0 +1,148 @@
+<html>
+<head>
+    <title>系统资源</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tools/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/system.css') }}">
+    <script src="{{ url_for('static', filename='js/jquery-3.6.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/echarts.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/all.js') }}"></script>
+</head>
+
+<body>
+        <button type="button" class="btn btn-primary you" onclick="reloads()">刷新</button>
+        <br><br><br>
+
+        
+            <div id="main0" class="ges youShang"></div>
+            <div id="main1" class="ges youShang"></div>
+        
+            <div id="main2" class="youShang ges" style="margin-top: 50px">
+                <div class="father"><h3><font class="jc" color="green" face="楷体">系统信息</font></h3></div>
+                <p class="father">{{systemName}}</p>
+                <p class="father">{{systemNodeName}}</p>
+                <p class="father">{{systemVer}}</p>
+                <p class="father">{{machine}}</p>
+                <p class="father">{{cpuCore}}</p>
+                <p class="father">{{memTotal}}</p>
+            </div>
+
+            <div id="main3" class="youShang ges" style="margin-top: 50px">
+                <div class="father"><h3><font class="jc" color="green" face="楷体">磁盘信息</font></h3></div>
+                    {% for k,v in diskUses.items() %}
+                        <p class="father">分区{{k}}总量: {{v}}</p>
+                    {% endfor %}
+            </div>
+
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main0'));
+    // var data=[50, 200, 360, 100, 88, 145]
+    var data={{memUse}};
+    // 指定图表的配置项和数据
+    var option = {
+        title: {
+            text: '内存使用率',
+        },
+        tooltip: {
+        },
+        
+        grid: {
+            left: '10%',
+            right: '15%',
+            bottom: '10%'
+        },
+        legend: {
+            data:['使用率G']
+        },
+        xAxis: {
+            data: []
+        },
+        yAxis: {},
+        series: [{
+            name: '使用率G',
+            type: 'bar',
+            color: '#FC7D07',
+            data: data
+        }]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>
+
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('main1'));
+        var data={{cpuUse}};
+        var option = {
+            title: {
+                text: 'CPU使用率',
+                // left: '1%'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            grid: {
+                left: '10%',
+                right: '15%',
+                bottom: '10%'
+            },
+            legend: {
+                data:['使用率\%']
+            },
+            xAxis: {
+                data: []
+            },
+            yAxis: {},
+            visualMap: {
+            top: 50,
+            right: 10,
+            pieces: [
+              {
+                gt: 0,
+                lte: 10,
+                color: '#93CE07'
+              },
+              {
+                gt: 10,
+                lte: 20,
+                color: '#FBDB0F'
+              },
+              {
+                gt: 20,
+                lte: 30,
+                color: '#FC7D07'
+              },
+              {
+                gt: 30,
+                lte: 50,
+                color: '#AC3B2A'
+              },
+              {
+                gt: 50,
+                lte: 100,
+                color: '#AA069F'
+              },
+              {
+                gt: 100,
+                color: '#FD0100'
+              }
+            ],
+            outOfRange: {
+              color: '#999'
+            }
+          },
+            series: [{
+                name: '使用率\%',
+                type: 'line',
+                color: 'green',
+                // showSymbol: false,
+                data: data
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+
+</body>
+</html>

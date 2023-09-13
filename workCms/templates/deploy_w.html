@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<body lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>维护详情记录</title>
+    <link rel="stylesheet" href={{ url_for('static', filename='css/tools/bootstrap.min.css') }}>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.6.1.min.js') }}"></script>
+</head>
+
+ 
+<body>
+    <br \>
+      <form class="#">
+        <div class="#">
+          <label>维护日期</label>
+          <input id="date" name="deploy_date" type="text" class="form-control"  placeholder="2022/8/1">
+
+          <label>维护时间</label>
+          <input id="time" name="deploy_time" type="text" class="form-control"  placeholder="9:00-11:00">
+
+          <label>维护详情</label>
+          <textarea id="info" name="deploy_info" class="form-control" rows="3"></textarea>
+          <label>维护人</label>
+          <input id="deployName" name="deploy_name" type="text" class="form-control">
+
+          <br><br>
+          <button id="tj" class="btn btn-primary">提交记录</button>
+          <input class="btn btn-warning" type="reset" value="重置">
+          <a href="{{ url_for('deploy.deploy_zs') }}">
+            <button type="button" class="btn btn-info">查看维护记录</button>
+          </a>
+        </div>
+      </form>
+
+    <script src="{{ url_for('static', filename='js/deploy.js') }}"></script>
+</body>
+</html>

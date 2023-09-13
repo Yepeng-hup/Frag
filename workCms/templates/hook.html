@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>webhook</title>
+    <link rel="stylesheet" href={{ url_for('static', filename='css/tools/bootstrap.min.css') }}>
+    <script src="{{ url_for('static', filename='js/jquery-3.6.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/webhook.js') }}"></script>
+</head>
+<body>
+    <span style="color: #6d61ea"><b>webhook配置</b></span>
+
+    <table class="table table-bordered table-hove">
+        <thead>
+            <th>webhook地址</th>
+            <th>动作</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <input id="url" class="form-control" type="text">
+                </td>
+                <td>
+                    <button onclick="SaveHookUrl()" class="btn btn-primary">添加</button>
+                    <button onclick="delHookUrl()" class="btn btn-danger">删除</button>
+                    <a href="{{ url_for('webhooks./webhook/rel') }}">
+                        <button type="button" class="btn btn-primary">查看</button>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <span style="color: #6d61ea"><b>webhook测试推送</b></span>
+    <table class="table table-bordered table-hove">
+        <thead>
+            <th>webhook选取</th>
+            <th>自定义JSON</th>
+            <th>动作</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <select id="hookUrl" style="height: 33px">
+                        {% for url in webhook_url %}
+                            {% if url != '' %}
+                            <option>{{ url }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </td>
+                <td>
+                    <textarea id="jsonData" style="background-color: #131112; color: #eeeeee" class="form-control" placeholder="write in json" rows="4"></textarea>
+                </td>
+                <td>
+                    <button class="btn btn-primary" onclick="hookSend()">推送</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,37 @@
+/* 下拉按钮样式 */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-btn {
+  width: 100px;
+  padding: 10px;
+  border: none;
+  background-color: #1cb41f;
+  cursor: pointer;
+    margin-left: 10px;
+    /*4边角变椭圆*/
+    /*border-radius: 4px;*/
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #7315d0;
+  min-width: 100px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+    margin-left: 10px;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #c90c0c;
+}

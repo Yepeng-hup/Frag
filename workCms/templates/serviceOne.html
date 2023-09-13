@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>serviceone</title>
+    <link rel="stylesheet" href={{ url_for('static', filename='css/tools/bootstrap.min.css') }}>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.6.1.min.js') }}"></script>
+</head>
+<body>
+    <span style="color: #6d61ea"><b>添加地址</b></span>
+    <form action="/serviceone" method="post">
+        <div id="div1">
+            <table class="table table-bordered table-hove">
+                <thead>
+                    <tr>
+                        <th>服务名</th>
+                        <th>服务地址/端口</th>
+                        <th>动作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            服务名:&nbsp&nbsp&nbsp<input name="serviceName" id="serviceName" type="text" style="height: 33px">
+                        </td>
+                        <td>
+                            地址:&nbsp&nbsp&nbsp<input name="url" id="url" type="text" style="width: 350px; height: 33px">
+                        </td>
+                        <td><input type="submit" id="conn" value="添加" class="btn btn-primary"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+    <hr>
+    <span style="color: #6d61ea"><b>链接地址</b></span><br>
+    <div style="float: left; display: flex; align-items: center;">
+        <input type="text" name="service" id="service" placeholder="服务名" style="height: 36px">
+        <input style="margin-left: 3px" class="btn btn-danger" type="submit" value="删除" id="del">
+    </div><br>
+    <br>
+    <div id="div2">
+       <table class="table table-bordered table-hove">
+           <tbody>
+
+                    {% for urlname, url in urls.items() %}
+                        <tr>
+                            <td>{{ urlname }}</td>
+                            <td>{{ url }}</td>
+                            <td>
+                                <a href="{{ url }}" target="_blank"><input type="submit" class="btn btn-success" value="连接"></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+           </tbody>
+       </table>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/addService.js') }}"></script>
+</body>
+</html>

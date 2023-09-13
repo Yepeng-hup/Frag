@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ssh server</title>
+    <link href={{ url_for('static', filename='css/tools/bootstrap.min.css') }} rel="stylesheet" type="text/css"/>
+    <link href={{ url_for('static', filename='css/webssh/xterm.min.css') }} rel="stylesheet" type="text/css"/>
+    <link href={{ url_for('static', filename='css/webssh/fullscreen.min.css') }} rel="stylesheet" type="text/css"/>
+</head>
+
+<style>
+    .container {
+        margin-top: 20px;
+      }
+</style>
+<body>
+<h4><b>主机列表</b></h4>
+<li><span style="color: red">连接终端和删除还在开发中,目前不能使用</span></li>
+<a href="/server/list/create"><button type="button" class="btn btn-primary" style="margin-top: 30px">创建主机</button></a>
+{#<div class="container form-container" style="display: none">#}
+<form>
+    <div style="margin-top: 20px">
+        <table class="table table-bordered table-hove">
+            <thead>
+            <th>#</th>
+            <th>主机别名</th>
+            <th>主机IP</th>
+            <th>主机端口</th>
+            <th>主机用户</th>
+            <th>终端</th>
+            <th>动作</th>
+            </thead>
+
+            <tbody>
+                {% for i in rel %}
+                    <tr>
+                        <td><input class="cb" type="checkbox"/></td>
+                        {% for k,v in i.items() %}
+                            <td>{{ v }}</td>
+                        {% endfor %}
+                        <td>
+                            <button class="btn btn-success" onclick="send_ssh()">连接</button>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger">删除</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+</form>
+
+    <div class="container">
+        <div id="status" style="color: red;"></div>
+        <div id="terminal"></div>
+    </div>
+
+    <script src={{ url_for('static', filename='js/webssh/jquery.min.js') }}></script>
+    <script src={{ url_for('static', filename='js/webssh/popper.min.js') }}></script>
+    <script src={{ url_for('static', filename='js/webssh/bootstrap.min.js') }}></script>
+    <script src={{ url_for('static', filename='js/webssh/xterm.min.js') }}></script>
+    <script src={{ url_for('static', filename='js/webssh/xterm-addon-fit.min.js') }}></script>
+    <script src={{ url_for('static', filename='js/webssh/main.js') }}></script>
+
+        <script>
+            function send_ssh() {
+                var items=document.getElementsByClassName('cb');
+                var len=items.length;
+                for (var i=len-1; i>=0;i--) {
+                    var is_checkd = items[i].checked;
+                    if (is_checkd) {
+                        var divItems = items[i].parentNode.parentNode;
+                        var divlr = divItems.innerText;
+                        let divlrArray = divlr.split(' ');
+                        let Array = divlrArray.split('\t');
+                        console.log(Array);
+                        {#$.post(#}
+                        {#    {#}
+                        {#        "url": "http://127.0.0.1:14100/",#}
+                        {#        "data": {#}
+                        {#            "name": divlr#}
+                        {#        }#}
+                        {#    },#}
+                        {##}
+                        {#)#}
+                    }
+                }
+            }
+        </script>
+
+</body>
+</html>

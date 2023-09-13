@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>audit</title>
+    <link rel="stylesheet" href={{ url_for('static', filename='css/tools/bootstrap.min.css') }}>
+</head>
+<body>
+    <h4 style="color: #6d61ea">审计日志</h4>
+    <hr>
+    <div>
+        <table class="table table-bordered table-hove">
+            <tbody>
+                {% for i in auditInfo %}
+                    <tr style="background-color: #6d61ea; color: #eeeeee">
+                        {% if i != '' %}
+                            <td>{{ i }}</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

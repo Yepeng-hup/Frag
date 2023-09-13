@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>文件上传</title>
+    <link rel="stylesheet" href={{ url_for('static', filename='css/tools/bootstrap.min.css') }}>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.css') }}">
+    <script src="{{ url_for('static', filename='js/jquery-3.6.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/all.js') }}"></script>
+</head>
+
+<body>
+
+    <form class="#" method="post" action="{{ url_for('file.push_w') }}" enctype="multipart/form-data">
+            {% for filedata in listdir %}
+                <option>{{filedata}}</option>
+            {% endfor %}
+    </form>
+
+    <form action="{{ url_for('file.push_w') }}" method="POST"  enctype="multipart/form-data">
+        <span><b>目录选择</b></span>
+        <select id="idnum" name="num" class="btn btn-success">
+            {% for backupDir in backupDir %}
+                <option>{{ backupDir }}</option>
+            {% endfor %}
+        </select>
+
+
+        <br \><br \><br \><br \><br \>
+        <div id="divd">
+            <span>*支持多文件上传，同时上传最多3个文件*</span><br>
+            <input type="file" name="file" id="files" class="btn btn-success" aria-hidden="true" multiple="multiple">
+        </div>
+        <div id="files-info"></div>
+        {% if status != '文件上传成功' %}
+            <p><font color="red" size="3">{{ status }}</font></p>
+        {% endif %}
+        <button style="margin-top: 20px" id="tj" type="submit" class="btn btn-primary">提交</button>
+        <button style="margin-top: 20px" class="btn btn-warning" type="reset" onclick="reloads()">重置</button>
+
+    </form>
+    <hr>
+
+    <div>
+        <p class="father btn btn-success">已有数据展示</p>
+        <br \>
+        <table class="table table-bordered table-hove">
+            <thead>
+                <th>文件名</th>
+                <th>上传时间</th>
+                <th>文件大小</th>
+            </thead>
+                {% for i in backupData %}
+                    <tr>
+                        <td><font color="green">{{i}}</font></td>
+                        <td>xxxxx</td>
+                        <td>xxxxx</td>
+                    </tr>
+                {% endfor %}
+        </table>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/file.js') }}"></script>
+</body>
+</html>

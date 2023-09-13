@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>addr info</title>
+    <link rel="stylesheet" href={{ url_for('static', filename='css/tools/bootstrap.min.css') }}>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.6.1.min.js') }}"></script>
+</head>
+<body>
+    <h4><b>IP属地查询</b></h4>
+     <span><img src="{{ url_for('static', filename='images/laba.png') }}" style="width: 35px; height: 35px"></span>
+        <span>受网络影响，有时会超时。</span>
+    <div class="container" style="margin-top: 40px">
+        <form class="parent" method="post" action="{{ url_for('secure./secure/ip') }}" enctype="multipart/form-data">
+            <input name="addr" type="text" placeholder="输入IP地址">
+            <input type="submit" value="查询">
+        </form>
+         <p style="color: #d0100a; text-align: center; margin-top: 5px">{{ error }}</p>
+    </div>
+    <div style="margin-top: 40px">
+        <table class="table table-bordered table-hove" >
+            <thead>
+                <th style="text-align: center">查询地址</th>
+                <th style="text-align: center">IP属地</th>
+                <th style="text-align: center">IP信息</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="text-align: center">{{ ip }}</td>
+                    <td style="text-align: center">{{ country }}</td>
+                    <td style="text-align: center">{{ info }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

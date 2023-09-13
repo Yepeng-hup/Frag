@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>databak</title>
+    <link rel="stylesheet" href={{ url_for('static', filename='css/tools/bootstrap.min.css') }}>
+    <script src="{{ url_for('static', filename='js/jquery-3.6.1.min.js') }}"></script>
+</head>
+<body>
+{#    <h4 style="color: #6d61ea">Linux平台</h4>#}
+
+    <span style="color: #6d61ea"><b>推送命令(不支持rm及动态的命令)</b></span>
+
+{#    <a href="{{ url_for('codepush./data/audit') }}">#}
+{#        <input type="button" id="audit" value="代码审计" class="btn btn-info">#}
+{#    </a><br><br>#}
+    <form>
+        <div>
+            <table class="table table-bordered table-hove">
+                <thead>
+                    <tr>
+                        <th>服务器地址</th>
+                        <th>用户</th>
+                        <th>密码</th>
+                        <th>执行代码</th>
+                        <th>动作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input id="server" name="server" type="text" placeholder="default 127.0.0.1" style="height: 33px; width: 120px"></td>
+                        <td><input id="user" name="user" type="text" placeholder="default root" style="height: 33px; width: 100px"></td>
+                        <td><input id="passwd" name="passwd" type="password" placeholder="user passwd" autocomplete="off" style="height: 33px; width: 120px"></td>
+                        <td><input id="code" name="code" type="text" placeholder="mkdir /opt/test" style="width: 350px; height: 33px"></td>
+                        <td>
+                            <input type="button" id="codezx" value="执行" class="btn btn-primary">
+                            <a href="{{ url_for('codepush./data/res') }}">
+                                <input type="button" id="cmdRes" value="结果查看" class="btn btn-info">
+                            </a>
+                            <a href="{{ url_for('codepush./data/audit') }}">
+                                <input type="button" id="audit" value="代码审计" class="btn btn-info">
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+    <hr>
+    <div>
+        <li>
+            <span>原文格式</span>
+        </li>
+        <hr>
+        <div>
+            <pre style="background-color: #1c1a1a; color: #eeeeee">{{ cmdResInfo }}</pre>
+        </div>
+    </div>
+
+{#    <span style="color: #6d61ea"><b>数据拷贝</b></span>#}
+
+{#    <div>#}
+{#        <table class="table table-bordered table-hove">#}
+{#            <tbody>#}
+{#                <tr>#}
+{#                    <td>源路径:&nbsp&nbsp&nbsp<input id="linuxsrc" name="linuxsrc" type="text" placeholder="/opt/test.yaml" style="width: 300px; height: 33px"></td>#}
+{#                    <td>目标路径:&nbsp&nbsp&nbsp<input id="linuxdest" name="linuxdest" type="text" placeholder="/tmp/" style="width: 300px; height: 33px"></td>#}
+{#                    <td><input type="button" id="linuxCp" value="执行" class="btn btn-primary"></td>#}
+{#                </tr>#}
+{#            </tbody>#}
+{#        </table>#}
+{#    </div>#}
+
+{#    <script>#}
+    {# linux #}
+{#        $(function(){#}
+{#            $("#linuxCp").click(function(){#}
+{#                var input_linuxsrc = $("#linuxsrc").val();#}
+{#                var input_linuxdest = $("#linuxdest").val();#}
+{#                if (input_linuxsrc == ''||input_linuxdest == '') {#}
+{#                   window.location = '/data/linux'#}
+{#                  alert('字段不允许为空！')#}
+{#                }else {#}
+{#                    $.post({#}
+{#                        "url": "/data/linuxcp",#}
+{#                        "data": {#}
+{#                            "src": input_linuxsrc,#}
+{#                            "dest": input_linuxdest,#}
+{#                            "label": "linux"#}
+{#                        },#}
+{#                        "success": function(data){#}
+{#                            if (data["code"] == 200){#}
+{#                                window.location = '/data/linux'#}
+{#                                alert("status: "+data["code"] +"\n"+"message: "+data["message"]);#}
+{#                            }else {#}
+{#                                window.location = '/data/linux'#}
+{#                                alert("status: "+data["code"] +"\n"+"message: "+data["message"]);#}
+{#                            }#}
+{#                        },#}
+{#                        "fail": function(error){#}
+{#                            console.log(error);#}
+{#                        }#}
+{#                    });#}
+{#                };#}
+{#            });#}
+{#        });#}
+{#    </script>#}
+
+    <script>
+    {# linux push code #}
+        $(function(){
+            $("#codezx").click(function(){
+                var input_server = $("#server").val();
+                var input_user = $("#user").val();
+                var input_passwd = $("#passwd").val();
+                var input_code = $("#code").val();
+                if (input_code == '') {
+                    window.location = '/data/linux'
+                    alert('字段不允许为空！');
+                }else {
+                    $.post({
+                        "url": "/data/linux",
+                        "data": {
+                            "serverIp": input_server,
+                            "user": input_user,
+                            "passwd": input_passwd,
+                            "code": input_code,
+                            "label": "linux"
+                        },
+                        "success": function(data){
+                            if (data["code"] == 200){
+                                window.location = '/data/res'
+                            }else {
+                                window.location = '/data/linux'
+                                alert("status: "+data["code"] +"\n"+"message: "+data["message"]);
+                            }
+                        },
+                        "fail": function(error){
+                            console.log(error);
+                        }
+                    });
+                };
+            });
+        });
+    </script>
+
+</body>
+</html>

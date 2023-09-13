@@ -1,0 +1,172 @@
+.father {
+    width: 25%;
+    margin: auto;
+    display: flex;
+    justify-content: space-around;
+  }
+
+
+
+.hen {
+    list-style: none;
+    float: left;
+}
+
+
+.you {
+    float: right;
+}
+
+
+.bet_time {
+    position:absolute;
+    bottom:0;
+    right:0;
+}
+
+.yanSeJB {
+  background-image: linear-gradient(#ebf9f8, #e2eef0);
+}
+
+.delete-btn {
+  height: 34px;
+  padding: 0 auto;
+  background-color: #6d61ea;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  border: none;
+  border-radius: 1px;
+  cursor: pointer;
+}
+
+
+.qd-btn {
+  height: 34px;
+  padding: 0 auto;
+  background-color: #2a7ff3;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  border: none;
+  border-radius: 1px;
+  cursor: pointer;
+}
+
+.f5-btn {
+  height: 34px;
+  padding: 0 auto;
+  background-color: #555459;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  border: none;
+  border-radius: 1px;
+  cursor: pointer;
+}
+
+.inputs {
+  border: 1px solid #000000;
+  padding: 7px 0px;
+  border-radius: 3px;
+  width: 50%;
+}
+
+.wk-btn {
+  display: inline-block;
+  height: 34px;
+  padding: 0 auto;
+  background-color: #14ca14;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.container {
+        width: 500px;
+        height: 50px;
+        margin: 10px auto;
+    }
+
+.parent {
+    width: 100%;
+    height: 42px;
+    top: 4px;
+    position: relative;
+}
+
+.parent>input:first-of-type {
+    width: 380px;
+    height: 40px;
+    border: 1px solid #317ef3;
+    font-size: 16px;
+    outline: none;
+}
+
+.parent>input:first-of-type:focus {
+    border: 1px solid #317ef3;
+    padding-left: 10px;
+}
+
+.parent>input:last-of-type {
+    width: 100px;
+    height: 40px;
+    position: absolute;
+    background: #317ef3;
+    border: 1px solid #317ef3;
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+}
+
+.barcon {width: 1000px;margin: 0 auto;text-align: center;}
+.barcon2 {float: right;}
+.barcon2 ul {
+            margin: 10px 0;
+            padding-left: 0;
+            list-style: none;
+            text-align: center;
+            }
+.barcon2 li {display: inline;}
+.barcon2 a {
+            font-size: 17px;
+            font-weight: normal;
+            display: inline-block;
+            padding: 3px;
+            padding-top: 0;
+            color: rgb(237, 243, 245);
+            background-color: #6d61ea;
+            cursor: pointer;
+            }
+.barcon2 a:hover{
+                    background-color: rgb(2, 50, 105);
+                }
+
+.musics{
+        position: absolute;
+        margin-top: -8px;
+        background: #6d61ea;
+        padding: 0 10px;
+    }
+
+.bet_time {
+    position:absolute;
+    bottom:0;
+    right:0;
+}
+
+.ges {
+    width: 50%;
+    height: 200px;
+}
+
+.jc {
+    font-weight: bold
+}
+
+.youShang{
+        float: left;
+    }

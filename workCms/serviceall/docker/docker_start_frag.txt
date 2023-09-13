@@ -1,0 +1,11 @@
+---
+docker build -f dockerfile -t frag:v1 .
+
+---
+docker run -d \
+-u root \
+--name my-frag \
+-v /etc/localtime:/etc/localtime:ro \
+-v /all/docker_v/frag.yaml:/Frag/frag.yaml \
+-p 14000:14000 \
+frag:v1

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<body lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>首页</title>
+    <link rel="stylesheet" href={{ url_for('static', filename='css/tools/bootstrap.min.css') }}>
+    <script src="{{ url_for('static', filename='js/echarts.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery-3.6.1.min.js') }}"></script>
+    <style>
+        .grid-container {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          grid-gap: 15px;
+          margin-bottom: 20px;
+        }
+
+        .grid-item {
+          {#background-color: #eeeeee;#}
+          padding: 15px;
+        }
+        .san {
+            width: auto;
+            height: 250px;
+            margin: 70px;
+            overflow-y: scroll;
+            {#float: right;#}
+            background-color: #6d61ea;
+        }
+  </style>
+</head>
+
+<body>
+
+        <div id="main-deploy" style="width: auto;height: 350px; text-align: center"></div>
+
+        <div class="san">
+            <div style="text-align: center">
+                {% for i in loginLog %}
+                    {% if i != "" %}
+                    <pre style="color: #eeeeee">{{ i }}</pre>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            var myChart = echarts.init(document.getElementById('main-deploy'));
+
+            $.get('/deploy_data_handle').done(function(data) {
+                myChart.setOption({
+                    title: {
+                        text: ''
+                    },
+                    tooltip: {},
+                    legend: {
+                        data:['维护次数']
+                    },
+                    xAxis: {
+                        name: '日期',
+                        data: data.dates
+                    },
+                    yAxis: {},
+                    series: [{
+                        name: '维护次数',
+                        type: 'bar',
+                        color: '#6d61ea',
+                        data: data.deploy_num
+                    }]
+                });
+            });
+        </script>
+
+</body>
+</html>

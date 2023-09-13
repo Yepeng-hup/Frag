@@ -1,0 +1,36 @@
+---
+#the frag config file
+
+# mysql配置
+mysql:
+  dbName: 'frag_test'
+  dbUser: 'root'
+  dbHost: x.x.x.x
+  dbPort: 13306
+  dbPasswd: 'xxxxx'
+flasks:
+  #frag服务监听的地址和端口
+  addr: '127.0.0.1'
+  port: 14000
+  # flask是否开启调试 [False / True]
+  debug: True
+#redis配置
+redis:
+  host: 127.0.0.1
+  port: 6379
+  dbName_num: 0
+  passwd: 'xxxxx'
+#frag配置
+data:
+  #数据上传保存目录, win目录格式: F:\tmp\, linux目录格式: /all/test/,最后的杆必须要写上。
+  PushData_save_dir: 'F:\tmp\'
+  # ssh 端口
+  ssh_port: 22
+  # 是否开启定时收集系统指标和压缩日志 [True / False]
+  crontab: True
+  #frag 日志目录
+  logs_dir: 'C:/Users/XuanQu/Desktop/github/Frag/workCms/logs'
+  #Linux 安全日志目录,默认 /var/log
+  sys_log_dir: 'C:/Users/XuanQu/Desktop/github/Frag/workCms/test'
+  #默认计算次数前10的ip
+  ip_count_num: 10

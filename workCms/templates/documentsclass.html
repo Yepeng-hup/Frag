@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>documents</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tools/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.css') }}">
+    <script src="{{ url_for('static', filename='js/jquery-3.6.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/echarts.js') }}"></script>
+</head>
+<body>
+{#    <div>#}
+{#        <table><b>类名</b></table>#}
+{#        <input id="label" name="label" type="text" class="form-control">#}
+{#    </div><br>#}
+
+    <div class="input-group" style="width: 500px">
+      <span class="input-group-addon" id="basic-addon1" style="width: 50px">类名</span>
+      <input type="text" class="form-control" aria-describedby="basic-addon1" id="label" name="label">
+    </div><br>
+    <button id="createlabel" class="btn btn-primary" style="margin-left: 50px">添加新分类</button>
+    <hr>
+
+    <h4 style="color: #6d61ea" class="father">标签总数趋势图</h4><br>
+    <li>
+        {% for k, v in titleNumDict.items() %}
+            <span>{{ k }}({{ v }})&nbsp&nbsp</span>
+        {% endfor %}
+    </li>
+    <div id="main0" style="width: auto;height: 300px;"></div>
+
+    <script>
+        $(function(){
+
+            $("#createlabel").click(function(){
+                //拿到input标签值，一定是表单值
+                var label = $("#label").val();
+                if (label == ''){
+                    alert('字段不允许为空!!!')
+                }else{
+                $.post({
+                    "url": "/documents/create",
+                    "data": {
+                        "label": label
+                    },
+                    "success": function(data){
+                        if (data["code"] == 200){
+                            window.location = '/documents/class'
+                            alert("status: "+data["code"] +"\n"+"message: "+data["message"]);
+                        }else {
+                            window.location = '/documents/class'
+                            alert("status: "+data["code"] +"\n"+"message: "+data["message"]);
+                        }
+                        console.log(data);
+                    },
+                    "fail": function(error){
+                        console.log(error);
+                    }
+                });
+
+                }
+            });
+        });
+    </script>
+
+    <script>
+        var myChart = echarts.init(document.getElementById('main0'));
+        option = {
+              xAxis: {
+                data: {{ title|safe }}
+              },
+              yAxis: {},
+              series: [
+                {
+                  data: {{ textNum }},
+                  type: 'line',
+                  areaStyle: {
+                    color: '#1ba595',
+                    opacity: 0.5
+                  }
+                }
+              ]
+            };
+        myChart.setOption(option);
+    </script>
+
+</body>
+</html>

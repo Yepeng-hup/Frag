@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>alert</title>
+    <link rel="stylesheet" href={{ url_for('static', filename='css/tools/bootstrap.min.css') }}>
+    <script src="{{ url_for('static', filename='js/echarts.js') }}"></script>
+</head>
+<body>
+    <div>
+        <a class="#" href="{{ url_for('server_check.server_zs') }}">
+            <img src="{{ url_for('static', filename='images/fh.png') }}" style="width: 35px; height: 35px; background-color: #6d61ea">
+        </a>
+    </div>
+    <br><br>
+
+    <div>
+        <li>
+            <span style="color: #31708f">历史总告警共{{ all }}次</span>
+        </li>
+        <li>
+            <span style="color: #31708f">今日告警共{{ day }}次</span>
+        </li>
+    </div>
+
+
+    <div id="main01" style="float: left;width: 50%;height: 350px"></div>
+    <div id="main02" style="float: left;width: 50%;height: 350px"></div>
+
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main01'));
+        // var data=[50, 200, 360, 100, 88, 145]
+        var all_data ={{ all }};
+        var day_data = {{ day }}
+            // 指定图表的配置项和数据
+            option = {
+                series: [
+                    {
+                        type: 'pie',
+                        data: [
+                            {
+                                value: all_data,
+                                name: '历史告警次数',
+                            },
+                            {
+                                value: day_data,
+                                name: '今日告警次数',
+                            }
+                        ]
+                    }
+                ]
+            };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('main02'));
+        {#转义flask列表数据#}
+        var strData = {{ str|tojson|safe }};
+        var numData = {{ num }};
+        var json = [];
+        var array = {};
+        for(var i = 0; i < strData.length; i++){
+            array['value'] = numData[i];
+            array['name'] = strData[i];
+            json.push(array);
+            array = {};
+        }
+        {#// 指定图表的配置项和数据#}
+        option = {
+          legend: {
+            orient: 'vertical',
+            x: 'left',
+            {#告警信息名#}
+            data: {{ str|tojson|safe }}
+          },
+          series: [
+            {
+              type: 'pie',
+              radius: ['50%', '70%'],
+              avoidLabelOverlap: false,
+              label: {
+                show: false,
+                position: 'center'
+              },
+              labelLine: {
+                show: false
+              },
+              emphasis: {
+                label: {
+                  show: true,
+                  fontSize: '30',
+                  fontWeight: 'bold'
+                }
+              },
+                {#次数#}
+                data: json
+            }
+          ]
+        };
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

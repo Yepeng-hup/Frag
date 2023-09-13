@@ -1,0 +1,58 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frag-dep
+  namespace: devops
+  labels:
+    app: frag
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frag
+  template:
+    metadata:
+      labels:
+        app: frag
+    spec:
+      terminationGracePeriodSeconds: 35
+      serviceAccountName: devops-frag-sa
+      containers:
+      - name: frag-images
+        image: <hubadd url>/frag:v1
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: <根据容器镜像环境变量来定>
+          value: "my-env-value"
+        ports:
+        - containerPort: 14000
+          name: app-port
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 200m
+            memory: 500Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 14000
+          initialDelaySeconds: 15
+          timeoutSeconds: 5
+          failureThreshold: 3
+          successThreshold: 1
+        volumeMounts:
+        - name: fileroot
+          mountPath: /workCms/serviceall/txt
+        - name: frag-time
+          mountPath: /etc/localtime
+      volumes:
+      - name: fileroot
+        persistentVolumeClaim:
+          claimName: frag-pvc
+      - name: frag-time
+        hostPath:
+          path: /etc/localtime

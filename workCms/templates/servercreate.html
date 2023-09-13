@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>create</title>
+    <link href={{ url_for('static', filename='css/tools/bootstrap.min.css') }} rel="stylesheet" type="text/css"/>
+    <script src="{{ url_for('static', filename='js/jquery-3.6.1.min.js') }}"></script>
+</head>
+<body>
+    <h4><b>主机创建</b></h4>
+    <form>
+    <div class="input-group" style="margin-top: 30px; margin-left: 100px; width: 800px">
+         <span class="input-group-addon" id="basic-addon1" style="width: 80px">主机名称</span>
+        <span style="color:red;">*</span>
+        <input type="text" class="form-control" aria-describedby="basic-addon1" id="hostname" autocomplete="off">
+    </div>
+    <div class="input-group" style="margin-top: 30px; margin-left: 100px; width: 800px">
+         <span class="input-group-addon" id="basic-addon1" style="width: 80px">IP地址</span>
+        <span style="color:red;">*</span>
+        <input type="text" class="form-control" aria-describedby="basic-addon1" id="ipaddr" autocomplete="off">
+    </div>
+    <div class="input-group" style="margin-top: 30px; margin-left: 100px; width: 800px">
+         <span class="input-group-addon" id="basic-addon1" style="width: 80px">端口</span>
+        <span style="color:red;">*</span>
+        <input type="number" class="form-control" aria-describedby="basic-addon1" id="port" autocomplete="off" placeholder="22" min=1 max=65535>
+    </div>
+    <div class="input-group" style="margin-top: 30px; margin-left: 100px; width: 800px">
+         <span class="input-group-addon" id="basic-addon1" style="width: 80px">用户名</span>
+        <span style="color:red;">*</span>
+        <input type="text" class="form-control" aria-describedby="basic-addon1" id="user" autocomplete="off">
+    </div>
+    <div class="input-group" style="margin-top: 30px; margin-left: 100px; width: 800px">
+         <span class="input-group-addon" id="basic-addon1" style="width: 80px">密码</span>
+        <span style="color:red;">*</span>
+        <input type="password" class="form-control" aria-describedby="basic-addon1" id="passwd" autocomplete="off">
+    </div>
+    <div class="input-group" style="margin-top: 30px; margin-left: 100px; width: 400px">
+         <span class="input-group-addon" id="basic-addon1" style="width: 85px">秘钥</span>
+        <input type="file" class="form-control" aria-describedby="basic-addon1" id="key" autocomplete="off">
+    </div>
+    <div class="input-group" style="margin-top: 30px; margin-left: 100px; width: 400px">
+         <span class="input-group-addon" id="basic-addon1" style="width: 85px">系统用户</span>
+            <select id="user_xz" class="form-control">
+                <option>fragsys</option>
+                <option>test</option>
+            </select>
+    </div>
+    <input  id="servercre" type="button" style="margin-top: 30px; margin-left: 100px" class="btn btn-primary" value="创建">
+    <button type="reset" style="margin-top: 30px; margin-left: 10px; color: #eeeeee" class="btn btn-warning">重置</button>
+    </form>
+
+    <script>
+        $(function(){
+        $("#servercre").click(function(){
+            var hostname = $("#hostname").val();
+            var ipaddr = $("#ipaddr").val();
+            var port = $("#port").val();
+            var user = $("#user").val();
+            var passwd = $("#passwd").val();
+            var user_xz = $("#user_xz").val();
+            console.log(hostname)
+            if (hostname == ''|| ipaddr == ''||port == ''||user == ''||passwd == ''||user_xz == ''){
+                alert('字段不允许为空!!!');
+            }else{
+                    $.post({
+                        "url": "/server/list/create",
+                        "data": {
+                            "hostname": hostname,
+                            "ipaddr": ipaddr,
+                            "port": port,
+                            "user": user,
+                            "passwd": passwd,
+                            "user_xz": user_xz,
+                        },
+                        "success": function(data){
+                            if (data["code"] == 200){
+                                //跳转路由
+                                window.location = "/server/list/index";
+                                alert("status: "+data["code"] +"\n"+"message: "+data["message"]);
+                            }else {
+                                window.location = "/server/list/create";
+                                alert("status: "+data["code"]+"\n"+"message: "+data["message"]);
+                            }
+                        },
+                        "fail": function(error){
+                            console.log(error);
+                        }
+                    });
+            }
+
+        });
+    })
+    </script>
+</body>
+</html>

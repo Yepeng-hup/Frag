@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>secure</title>
+    <link rel="stylesheet" href={{ url_for('static', filename='css/tools/bootstrap.min.css') }}>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.6.1.min.js') }}"></script>
+</head>
+<body>
+
+    <h4><b>Frag system</b></h4><br>
+    <a href="{{ url_for("secure./secure/ip/index") }}"><button class="btn btn-primary">IP属地查询</button></a>
+     <table style="margin-top: 10px" class="table table-bordered table-hove">
+        <thead>
+            <th>#</th>
+            <th>IP地址</th>
+            <th>出现次数</th>
+            <th>动作</th>
+        </thead>
+         <tbody>
+            {% for ip, num in frag_ip_dict.items() %}
+            <tr>
+                <td><input class="cb" type="checkbox"/></td>
+                <td>{{ ip }}</td>
+                <td>{{ num }}</td>
+                <td>
+                    <button class="btn btn-danger" onclick="drop()">禁止</button>
+                    <button style="margin-left: 15px" class="btn btn-success" onclick="delDorp()">解封</button>
+                </td>
+            </tr>
+            {% endfor %}
+         </tbody>
+     </table>
+    <table class="table table-bordered table-hove">
+        <thead>
+            <th>IP地址</th>
+            <th>IP状态</th>
+        </thead>
+        <tbody>
+            {% for k, v in frag_ip_status.items() %}
+            <tr>
+                <td>{{ k }}</td>
+                {% if v == False %}
+                    <td style="color: #0fc10f">正常</td>
+                {% else %}
+                    <td style="color: #d7130d">已禁用</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <hr>
+    <h4><b>Linux system</b></h4><br>
+         <table class="table table-bordered table-hove">
+        <thead>
+            <th>#</th>
+            <th>IP地址</th>
+            <th>出现次数</th>
+            <th>动作</th>
+        </thead>
+         <tbody>
+            {% for ip, num in sys_ip_dict.items() %}
+            <tr>
+                <td><input class="cb" type="checkbox"/></td>
+                <td>{{ ip }}</td>
+                <td>{{ num }}</td>
+                <td>
+                    <button class="btn btn-danger" onclick="drop()">禁止</button>
+                    <button style="margin-left: 15px" class="btn btn-success" onclick="delDorp()">解封</button>
+                </td>
+            </tr>
+            {% endfor %}
+         </tbody>
+     </table>
+    <table class="table table-bordered table-hove">
+        <thead>
+            <th>IP地址</th>
+            <th>IP状态</th>
+        </thead>
+        <tbody>
+            {% for k, v in sys_ip_status.items() %}
+            <tr>
+                <td>{{ k }}</td>
+                {% if v == False %}
+                    <td style="color: #0fc10f">正常</td>
+                {% else %}
+                    <td style="color: #d7130d">已禁用</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        function drop() {
+            var items = document.getElementsByClassName('cb');
+            var len = items.length;
+            for (var i = len - 1; i >= 0; i--) {
+                var is_checkd = items[i].checked;
+                if (is_checkd) {
+                    var divItems = items[i].parentNode.parentNode;
+                    var divlr = divItems.innerText
+                    $.post(
+                        {
+                            "url": "/secure/cl/drop/drop",
+                            "data": {
+                                "drop_status": divlr,
+                            },
+                            "success": function (data) {
+                                if (data["code"] == 200) {
+
+                                    window.location = "/secure/index";
+                                    alert("status: " + data["code"] + "\n" + "message: " + data["message"]);
+                                } else {
+                                    window.location = "/secure/index";
+                                    alert("status: " + data["code"] + "\n" + "message: " + data["message"]);
+                                }
+                            },
+                            "fail": function (error) {
+                                console.log(error);
+                            }
+                        },
+                    )
+                }
+            }
+        }
+
+        function delDorp() {
+            var items = document.getElementsByClassName('cb');
+            var len = items.length;
+            for (var i = len - 1; i >= 0; i--) {
+                var is_checkd = items[i].checked;
+                if (is_checkd) {
+                    var divItems = items[i].parentNode.parentNode;
+                    var divlr = divItems.innerText
+                    $.post(
+                        {
+                            "url": "/secure/cl/drop/del",
+                            "data": {
+                                "delDrop_status": divlr,
+                            },
+                            "success": function (data) {
+                                if (data["code"] == 200) {
+
+                                    window.location = "/secure/index";
+                                    alert("status: " + data["code"] + "\n" + "message: " + data["message"]);
+                                } else {
+                                    window.location = "/secure/index";
+                                    alert("status: " + data["code"] + "\n" + "message: " + data["message"]);
+                                }
+                            },
+                            "fail": function (error) {
+                                console.log(error);
+                            }
+                        },
+                    )
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>

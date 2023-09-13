@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>userlist</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tools/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dialog.css') }}" />
+    <script src="{{ url_for('static', filename='js/jquery-3.6.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dialog.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.css') }}">
+</head>
+<body>
+
+        <h4><b>密码修改</b></h4><br>
+
+        <div class="input-group father" style="width: 500px">
+                <span class="input-group-addon" id="basic-addon1" style="width: 80px">用户</span>
+                <input type="text" class="form-control" aria-describedby="basic-addon1" id="user" name="user">
+        </div><br>
+        <form>
+        <div class="input-group father" style="width: 500px">
+                <span class="input-group-addon" id="basic-addon1" style="width: 80px">密码</span>
+                <input type="password" class="form-control" aria-describedby="basic-addon1" id="passwd" name="passwd" autocomplete="off">
+        </div>
+        </form><br>
+        <form>
+        <div class="input-group father" style="width: 500px">
+                <span class="input-group-addon" id="basic-addon1" style="width: 80px">确认密码</span>
+                <input type="password" class="form-control" aria-describedby="basic-addon1" id="passwd1" name="passwd1" autocomplete="off">
+        </div>
+        </form><br>
+        <input  id="pwdupdate" type="button" class="btn btn-primary father" value="确认修改">
+
+    <hr>
+        <h4><b>用户列表</b></h4><br>
+
+    <table class="table table-bordered table-hove">
+        <thead>
+            <th>#</th>
+            <th>用户名</th>
+            <th>创建时间</th>
+            <th>#</th>
+        </thead>
+        <tbody>
+            {% for i in userName %}
+                <tr>
+               <div class="items">
+                   <td><input class="cb" type="checkbox"/></td>
+                {% for _,v in i.items() %}
+                    <td>{{ v }}</td>
+                    {% endfor %}
+               </div>
+                <td>
+                    <button class="btn btn-danger" onclick="deleteCheckbox()">删除用户</button>
+                </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script src="{{ url_for('static', filename='js/user.js') }}"></script>
+
+</body>
+</html>

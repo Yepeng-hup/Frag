@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<body lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>合服记录展示</title>
+    <link rel="stylesheet" href={{ url_for('static', filename='css/tools/bootstrap.min.css') }}>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.6.1.min.js') }}"></script>
+</head>
+
+<body>
+    <div>
+        <a class="#" href="{{ url_for('hefu.hefu_w') }}">
+            <img src="{{ url_for('static', filename='images/fh.png') }}" style="width: 35px; height: 35px; background-color: #6d61ea">
+        </a>
+    </div><br>
+
+    <div class="container">
+        <form class="parent" method="post" action="{{ url_for('hefu.hefu_search') }}">
+            <input name="search" type="text" placeholder="输入关键字">
+            <input type="submit" value="搜索记录">
+        </form>
+    </div>
+
+    <div style="float: left; display: flex; align-items: center;">
+        <input type="text" id="data" style="height: 36px;" placeholder="输入要删除的ID">
+        <button class="btn btn-danger" id="delete_table" style="margin: 2px;">删除</button>
+    </div>
+
+    <div>
+        <form action="{{ url_for('hefu.hefu_sx') }}" method="post" style="float: left; display: flex; align-items: center;margin-left: 20px">
+            <input type="text" id="start_num"  name="start_num" style="height: 36px; width: 80px" placeholder="100">
+            <input type="text" id="stop_num" name="stop_num" style="height: 36px; width: 80px; margin: 2px;" placeholder="200">
+            <input class="btn btn-primary" type="submit" value="筛选查看" data-toggle="tooltip" data-placement="left" title="第一个输入框是从哪行开始，第二个输入框是基于前面的输入框数字往后的多少行，输入的数字。">
+        </form>
+    </div>
+
+    <div>
+        <form method="post" name="chack_deploy" style="margin-top: 70px">
+            <table class="table table-bordered table-hove">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>合服日期</th>
+                        <th>合服时间</th>
+                        <th>合服详情</th>
+                        <th>执行人</th>
+                    </tr>
+            </thead>
+            <tbody id="tablesData">
+                    {% for i in data %}
+                    <tr>
+                        {% for _,v in i.items() %}
+                        <td>{{v}}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+    <div id="barcon" class="barcon" >
+        <div id="barcon2" class="barcon2">
+            <ul style="display: flex; align-items: center">
+                <li><a id="prePage" style="border-radius: 3px; text-decoration: none;">上一页</a></li>
+                <li id="barcon1"></li>
+                <li><a id="nextPage" style="border-radius: 3px; text-decoration: none;">下一页</a></li>
+                <li style="margin-left: 3px"><input type="text" id="num" size="2" oninput="value=value.replace(/[^\d]/g,'')"></li>
+                <li><a id="jumpPage" style="border-radius: 3px; text-decoration: none;margin-left: 3px; color: #eeeeee" onclick="jumpPage()">跳转</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/shut.js') }}"></script>
+
+    <script type="text/javascript">
+            $(function(){
+               goPage(1,100);
+            })
+           var pageSize=1;
+           var currentPage_=1;
+           var totalPage;
+           function goPage(pno,psize){
+               var itable = document.getElementById("tablesData");
+               var num = itable.rows.length;
+
+               pageSize = psize;
+               if(num/pageSize > parseInt(num/pageSize)){
+                   totalPage=parseInt(num/pageSize)+1;
+               }else{
+                   totalPage=parseInt(num/pageSize);
+               }
+               var currentPage = pno;
+               currentPage_=currentPage;
+               var startRow = (currentPage - 1) * pageSize+1;
+               var endRow = currentPage * pageSize;
+               endRow = (endRow > num)? num : endRow;
+
+               $("#tablesData tr").hide();
+               for(var i=startRow-1;i<endRow;i++) {
+                   $("#tablesData tr").eq(i).show();
+               }
+
+               var tempStr = currentPage+"/"+totalPage;
+               document.getElementById("barcon1").innerHTML = tempStr;
+
+               if(currentPage>1){
+                   $("#firstPage").on("click",function(){
+                       goPage(1,psize);
+                   }).removeClass("ban");
+                   $("#prePage").on("click",function(){
+                       goPage(currentPage-1,psize);
+                   }).removeClass("ban");
+               }else{
+                   $("#firstPage").off("click").addClass("ban");
+                   $("#prePage").off("click").addClass("ban");
+               }
+
+               if(currentPage<totalPage){
+                   $("#nextPage").on("click",function(){
+                       goPage(currentPage+1,psize);
+                   }).removeClass("ban")
+                   $("#lastPage").on("click",function(){
+                       goPage(totalPage,psize);
+                   }).removeClass("ban")
+               }else{
+                   $("#nextPage").off("click").addClass("ban");
+                   $("#lastPage").off("click").addClass("ban");
+               }
+           }
+
+           function jumpPage() {
+               var num=parseInt($("#num").val());
+               if(num != currentPage_ && !isNaN(num) && num <= totalPage && num > 0) {
+                   goPage(num,pageSize);
+               }
+           }
+    </script>
+</body>
+</html>

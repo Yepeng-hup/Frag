@@ -1,0 +1,21 @@
+.father {
+  width: 50%;
+  margin: auto;
+  display: flex;
+  justify-content: space-around;
+}
+.you {
+    float: right;
+}
+.ges {
+    width: 50%;
+    height: 200px;
+}
+.jc {
+    font-weight: bold
+}
+
+.youShang{
+        float: left;
+        /* border: 1px solid green; */
+    }
