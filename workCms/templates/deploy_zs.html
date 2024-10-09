@@ -12,12 +12,6 @@
 </head>
 
 <body>
-    <div>
-        <a class="#" href="{{ url_for('deploy.deploy_w') }}">
-            <img src="{{ url_for('static', filename='images/fh.png') }}" style="width: 35px; height: 35px; background-color: #6d61ea">
-        </a>
-    </div><br>
-
     <div class="container">
         <form class="parent" method="post" action="{{ url_for('deploy.deploy_search') }}">
             <input name="search" type="text" placeholder="输入关键字">
