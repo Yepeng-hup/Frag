@@ -8,12 +8,6 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.6.1.min.js') }}"></script>
 </head>
 <body>
-    <div>
-        <a class="#" href="{{ url_for('server_check.server') }}">
-            <img src="{{ url_for('static', filename='images/fh.png') }}" style="width: 35px; height: 35px; background-color: #6d61ea">
-        </a>
-    </div><br>
-
         <div class="container">
         <form class="parent" method="post" action="{{ url_for('server_check.server_search') }}" enctype="multipart/form-data">
             <input name="search" type="text" placeholder="输入关键字">
